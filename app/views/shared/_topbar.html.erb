@@ -1,0 +1,168 @@
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+  <%#= render 'shared/flash_message' %>
+  <!-- Sidebar Toggle (Topbar) -->
+  <li class="text-center d-none d-md-inline">
+    <span id="sidebarToggle" style="cursor: pointer"><i class="fa fa-bars" aria-hidden="true"></i>
+</span>
+  </li>
+  <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+    <i class="fa fa-bars"></i>
+  </button>
+
+  <!-- Topbar Navbar -->
+  <ul class="navbar-nav ml-auto">
+
+    <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+    <li class="nav-item dropdown no-arrow d-sm-none">
+      <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-search fa-fw"></i>
+      </a>
+      <!-- Dropdown - Messages -->
+      <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+        <form class="form-inline mr-auto w-100 navbar-search">
+          <div class="input-group">
+            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button">
+                <i class="fa fa-search fa-sm"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </li>
+
+    <% unless current_user.contractor? %>
+      <!--    Reminder-->
+      <li class="nav-item dropdown no-arrow notification" title="Remind Pre-visitors">
+        <a class="nav-link dropdown-toggle#" href="/remind_pre_visitors" id="userDropdown">
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+          <span class="badge"><%= remind_pre_visitors %></span>
+        </a>
+      </li>
+
+      <!--    Notification   -->
+      <li class="nav-item dropdown no-arrow notification" title='Notifications'>
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-bell "></i>
+          <span class="badge"><%= unseen_notifications %></span>
+        </a>
+        <!-- Dropdown - Notification Information -->
+        <div class="dropdown-menu dropdown-menu-right  shadow animated--grow-in" aria-labelledby="userDropdown" style="overflow-y:scroll;max-height: 400px">
+          <% if web_notifications.length > 0 %>
+            <% web_notifications.each do |notification| %>
+              <% if notification.notification_type == 'pre_visitor' && notification.pre_visitor.present? %>
+                <%= link_to pre_visitor_details_path(notification.pre_visitor_id, notification_id: notification.id), class: "dropdown-item", id: 'pre_visitor_notification_link' do %>
+                  <p>
+                 <span class="<%= notification.is_seen ? '' : 'active_notification' %>">
+                   <i class="fa fa-user-circle fa-sm fa-fw mr-1 text-gray-400 " aria-hidden="true"></i>
+                   <%= notification.notification_purpose %>
+                   </span></br>
+                    <span style="padding-left: 5px;font-size: x-small;">
+                   <%= notification.message %>
+                 </span>
+                  </p>
+                <% end %>
+              <% end %>
+
+              <% if notification.notification_type == 'visitor' && notification.visitor.present? %>
+                <%= link_to details_path(notification.visitor_id, notification_id: notification.id), class: "dropdown-item", id: 'visitor_notification_link' do %>
+                  <div>
+                    <p>
+                 <span class="<%= notification.is_seen ? '' : 'active_notification' %>">
+                   <i class="fa fa-user-circle fa-sm fa-fw mr-1 text-gray-400 " aria-hidden="true"></i>
+                   <%= notification.notification_purpose %>
+                   </span></br>
+                      <span style="padding-left: 5px;font-size: x-small;">
+                        <% if notification.receiver.present? %>
+                           <%#= notification.message %>
+                          <% if notification.visitor.pre_visitor_id.present? %>
+                              Pre-Visitor
+                            <% else %>
+                                Visitor
+                            <% end %>
+                          , <%= notification.visitor.full_name %>
+                          has come to consult with you<%#= notification.receiver.full_name %>
+                          <% else %>
+                          <% if notification.visitor.pre_visitor_id.present? %>
+                             Pre-Visitor
+                           <% else %>
+                            Visitor
+                           <% end %>
+                          , <%= notification.visitor.full_name %> has come to consult with anyone
+                       <% end %>
+                    </span>
+                    </p>
+                  </div>
+                <% end %>
+              <% end %>
+
+
+              <% if notification.notification_type == 'license' && notification.receiver.present? %>
+                <%#= link_to pre_visitor_details_path(notification.pre_visitor_id, notification_id: notification.id), class: "dropdown-item", id: 'pre_visitor_notification_link' do %>
+                <%= link_to license_path(notification.license_id, notification_id: notification.id), class: "dropdown-item", id: 'pre_visitor_notification_link' do %>
+                  <p>
+                           <span class="<%= notification.is_seen ? '' : 'active_notification' %>">
+                             <i class="fa fa-user-circle fa-sm fa-fw mr-1 text-gray-400 " aria-hidden="true"></i>
+                             <%= notification.notification_purpose %>
+                           </span></br>
+                    <span style="padding-left: 5px;font-size: x-small;">
+                             <%= notification.message %>
+                           </span>
+                  </p>
+                <% end %>
+              <% end %>
+
+
+            <% end %>
+
+            <div class="pl-2 pr-2 text-center">
+              <%= link_to web_notifications_path do %>
+                See All...
+              <% end %>
+            </div>
+          <% else %>
+            <div class="pl-2 pr-2">
+              <p><i class="fa fa-sm fa-ban fa-sm fa-fw mr-1 text-gray-400" aria-hidden="true"></i> Notification Not
+                Found!! </p>
+            </div>
+          <% end %>
+        </div>
+      </li>
+    <% end %>
+
+    <!-- Nav Item - User Information -->
+    <li class="nav-item dropdown no-arrow" title='Profile'>
+      <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= current_user.first_name + ' ' + current_user.last_name if current_user.first_name.present? && current_user.last_name.present? %></span>
+        <%= image_tag 'blank_image.jpg', size: 60, class: 'img-profile rounded-circle' unless current_user.image.present? %>
+        <%#= image_tag 'profile_user.png', size: 60, class: 'img-profile rounded-circle' unless current_user.image.present? %>
+        <%= image_tag "#{current_user.image}", size: 60, class: 'img-profile rounded-circle' if current_user.image.present? %>
+
+      </a>
+      <!-- Dropdown - User Information -->
+      <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+
+        <%= link_to user_profile_path, class: "dropdown-item" do %>
+          <i class="fa fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+          Profile
+        <% end %>
+
+        <%= link_to profile_edit_path, class: "dropdown-item" do %>
+          <i class="fa fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+          Edit Profile
+        <% end %>
+
+        <div class="dropdown-divider"></div>
+        <%= link_to destroy_user_session_path, method: :delete, class: 'dropdown-item', "data-toggle" => "modal", "data-target" => "#logoutModal" do %>
+          <i class="fa fa-sign-out fa-sm fa-fw mr-2 text-gray-400"></i>
+          Logout
+        <% end %>
+
+      </div>
+    </li>
+
+  </ul>
+
+</nav>
+<!-- End of Topbar -->

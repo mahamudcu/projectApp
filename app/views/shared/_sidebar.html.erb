@@ -1,0 +1,176 @@
+<!-- Sidebar -->
+
+<ul class="navbar-nav sidebar-bg sidebar sidebar-dark accordion hide-sidebar" id="accordionSidebar" style="position: relative">
+<!--  <li class="text-center d-none d-md-inline">-->
+<!--    <span id="sidebarToggle"></span>-->
+<!--  </li>-->
+  <!-- Sidebar - Brand -->
+  <%= link_to dashboard_path, class: "sidebar-brand d-flex align-items-center justify-content-center" do %>
+    <div class="sidebar-brand-icon">
+      <% if current_company.setting.present? and current_company.setting.company_logo.present? %>
+        <%= image_tag("#{current_company.setting.company_logo}", size: 38, class: 'side-nav-logo') %>
+      <% else %>
+        <%= image_tag("MWA.png", size: 40, class: 'side-nav-logo') %>
+      <% end %>
+    </div>
+    <div class="sidebar-brand-text mx-3"><%= current_user.company.present? ? current_user.company.name : 'My Welcome App' %></div>
+  <% end %>
+
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0 mb-4">
+
+  <!-- Nav Item - Dashboard -->
+  <% if current_user.contractor?  || current_user.staff? %>
+    <li class="nav-item <%= controller.controller_name == 'users' ? 'active' : '' %>">
+      <%= link_to user_profile_path, class: "nav-link" do %>
+        <i class="fa fa-fw fa-user "></i>
+        <span>Profile</span>
+      <% end %>
+    </li>
+
+    <li class="nav-item <%= controller.controller_name == 'licenses' ? 'active' : '' %>">
+      <%= link_to licenses_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fa-user "></i>
+        <span>My Licenses</span>
+      <% end %>
+    </li>
+
+    <%else %>
+  <li class="nav-item <%= controller.controller_name == 'home' ? 'active' : '' %>">
+    <%= link_to dashboard_path, class: "nav-link" do %>
+      <i class="fa fa-fw# fa-tachometer "></i>
+      <span>Dashboard</span>
+    <% end %>
+  </li>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <li class="nav-item <%= controller.controller_name == 'users' ? 'active' : '' %>">
+      <%= link_to users_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fa-users"></i>
+        <span>Users</span>
+      <% end %>
+    </li>
+
+    <li class="nav-item <%= controller.controller_name == 'contractors' ? 'active' : '' %>">
+      <%= link_to contractors_path, class: "nav-link" do %>
+        <i class="fa fa-user-circle-o fa-user-secret#" aria-hidden="true"></i>
+        <span>Contractors</span>
+      <% end %>
+    </li>
+  <% end %>
+  <% unless current_user.contractor? %>
+  <li class="nav-item <%= set_active(['index','details'], ['visitors'])  %> ">
+    <%= link_to visitors_path, class: "nav-link" do %>
+      <i class="fa fa-fw# fa-address-card"></i>
+      <span><%= current_company.token_type.present? ? current_company.token_type+'s' : "Visitors"%></span>
+    <% end %>
+  </li>
+
+  <li class="nav-item <%= set_active(['pre_visitors'], ['visitors'])  %>  <%= action_name == 'pre_visitors' ? 'active' : '' %>">
+    <%= link_to pre_visitors_path, class: "nav-link" do %>
+      <i class="fa fa-fw# fa-address-card"></i>
+      <span><%= current_company.pre_token_type.present? ? current_company.pre_token_type+'s' : "Pre-Visitors"%></span>
+    <% end %>
+  </li>
+<% end %>
+
+  <% if current_user.admin? %>
+    <li class="nav-item <%= controller.controller_name == 'departments' ? 'active' : '' %>">
+      <%= link_to departments_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fas fa-university fa-industry# "></i>
+        <span>Departments</span>
+      <% end %>
+    </li>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <li class="nav-item <%= controller.controller_name == 'settings' ? 'active' : '' %>">
+      <%= link_to settings_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fa-cogs"></i>
+        <span>Setting</span>
+      <% end %>
+    </li>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <li class="nav-item <%= controller.controller_name == 'qr_codes' ? 'active' : '' %>">
+      <%#= link_to qr_codes_path, class: "nav-link" do %>
+      <%= link_to all_qr_print_qr_codes_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fa-qrcode"></i>
+        <span>QR Code</span>
+      <% end %>
+    </li>
+  <% end %>
+  <% unless current_user.contractor? %>
+  <li class="nav-item one-touch <%= controller.controller_name == 'alert_types' ? 'active' : '' %>">
+    <%= link_to one_touch_path, class: "nav-link" do %>
+      <i class="fa fa-fw# fa-hand-pointer-o"></i>
+      <span>One Touch</span>
+    <% end %>
+  </li>
+
+  <li class="nav-item <%= set_active(['index','show','edit','new','monthly_attendance'],'attendances') %>">
+    <%= link_to attendances_path, class: "nav-link" do %>
+      <i class="fa fa-fw# fa-pencil "></i>
+      <span>Attendances</span>
+    <% end %>
+  </li>
+
+    <li class="nav-item <%= controller.controller_name == 'rosters' ? 'active' : '' %>">
+      <%= link_to rosters_path, class: "nav-link" do %>
+        <i class="fa fa-clipboard" aria-hidden="true"></i>
+        <span>Rosters</span>
+      <% end %>
+    </li>
+
+    <li class="nav-item <%= controller.controller_name == 'parcels' ? 'active' : '' %>">
+      <%= link_to parcels_path, class: "nav-link" do %>
+        <i class="fa fa-gift" aria-hidden="true"></i>
+        <span> Parcels</span>
+      <% end %>
+    </li>
+
+    <li class="nav-item <%= controller.controller_name == 'visit_flats' ? 'active' : '' %>">
+      <%= link_to visit_flats_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fa-building"></i>
+        <span> Office Visit </span>
+      <% end %>
+    </li>
+
+  <li class="nav-item <%= controller.controller_name == 'messages' ? 'active' : '' %>">
+    <%= link_to messages_path, class: "nav-link" do %>
+      <i class="fa fa-envelope" aria-hidden="true"></i>
+      <span>Messages</span>
+    <% end %>
+  </li>
+<%end %>
+
+  <% if current_user.admin? %>
+    <li class="nav-item <%= controller.controller_name == 'billings' ? 'active' : '' %>">
+      <%= link_to billings_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fa-money "></i>
+        <span>Billings</span>
+      <% end %>
+    </li>
+  <% end %>
+
+  <% if current_user.admin? %>
+    <li class="nav-item <%= controller.controller_name == 'badges' ? 'active' : '' %>">
+      <%= link_to companies_path, class: "nav-link" do %>
+        <i class="fa fa-fw# fa-building"></i>
+        <span>Company</span>
+      <% end %>
+    </li>
+  <% end %>
+
+  <% if current_user.admin? && current_company.setting.is_poi %>
+    <li class="nav-item <%= controller.controller_name == 'person_of_interests' ? 'active' : '' %>">
+      <%= link_to person_of_interests_path, class: "nav-link" do %>
+        <i class="fa fa-star"></i>
+        <span>POI List</span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+

@@ -1,0 +1,78 @@
+<div class="side-nav-wraper" id="nav-content">
+  <div class="profile-info">
+    <div class="float-left">
+      <%= image_tag("profile.jpeg", class: 'profile-image', alt: 'Avatar') %>
+    </div>
+    <div class="admin-name-title">
+      <p class="admin-name"><%= current_user.name %></p>
+      <p class="admin-title"><b>Admin</b></p>
+    </div>
+  </div>
+
+  <div class="nav-control-icon">
+    <div class="float-left nav-control-name">Menu</div>
+    <div id="nav-collapse" class="float-right nav-collapse">
+      <i class="fa fa-chevron-left"></i>
+    </div>
+  </div>
+
+  <%= link_to dashboard_path do %>
+      <div class="nav-content <%= controller.controller_name == 'home' ? 'nav-selected' : '' %>">
+        <div class="selected-nav-icon <%= controller.controller_name == 'home' ? 'selected-nav-icon-color' : '' %>"></div>
+        <div class="nav-details">
+          <div class="nav-icon"><i class="fa fa-tachometer fa-lg"></i></div>
+          <div class="nav-name">Dashboard</div>
+        </div>
+      </div>
+  <% end %>
+
+  <%= link_to reports_path do %>
+      <div class="nav-content <%= controller.controller_name == 'reports' ? 'nav-selected' : '' %>">
+        <div class="selected-nav-icon <%= controller.controller_name == 'reports' ? 'selected-nav-icon-color' : '' %>"></div>
+        <div class="nav-details">
+          <div class="nav-icon"><i class="fa fa-glass fa-lg"></i></div>
+          <div class="nav-name">Report</div>
+        </div>
+      </div>
+  <% end %>
+
+  <%= link_to settings_path do %>
+      <div class="nav-content <%= controller.controller_name == 'settings' ? 'nav-selected' : '' %> ">
+        <div class="selected-nav-icon <%= controller.controller_name == 'settings' ? 'selected-nav-icon-color' : '' %>"></div>
+        <div class="nav-details">
+          <div class="nav-icon"><i class="fa fa-cogs fa-lg"></i></div>
+          <div class="nav-name">Setting</div>
+        </div>
+      </div>
+  <% end %>
+
+  <%= link_to '#' do %>
+      <div class="nav-content <%= controller.controller_name == 'badges' ? 'nav-selected' : '' %>">
+        <div class="selected-nav-icon <%= controller.controller_name == 'badges' ? 'selected-nav-icon-color' : '' %>"></div>
+        <div class="nav-details">
+          <div class="nav-icon"><i class="fa fa-building fa-lg"></i></div>
+          <div class="nav-name">Badge</div>
+        </div>
+      </div>
+  <% end %>
+
+  <%= link_to destroy_user_session_path, method: :delete do %>
+      <div class="nav-content <%= controller.controller_name == 'badges' ? 'nav-selected' : '' %>">
+        <div class="selected-nav-icon <%= controller.controller_name == 'badges' ? 'selected-nav-icon-color' : '' %>"></div>
+        <div class="nav-details">
+          <div class="nav-icon"><i class="fa fa-power-off fa-lg"></i></div>
+          <div class="nav-name">Logout</div>
+        </div>
+      </div>
+  <% end %>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $("#nav-collapse").click(function () {
+        $("#nav-content").toggleClass("side-nav-wraper")
+        $("#nav-content").toggleClass("collapse-side-nav-wraper")
+        $("#main-content").toggleClass("main-content-wraper")
+        $("#main-content").toggleClass("collapse-main-content-wraper")
+        $(".fa-chevron-left").toggleClass("fa-rotate-180")
+    })
+</script>
