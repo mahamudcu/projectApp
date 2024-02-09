@@ -1,0 +1,34 @@
+// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
+// import "@hotwired/turbo-rails"
+// import "controllers"
+
+//= require rails-ujs
+//= require activestorage
+//= require vendor/global/global.min
+//= require vendor/bootstrap-select/dist/js/bootstrap-select.min
+//= require vendor/chart.js/Chart.bundle.min
+//= require vendor/apexchart/apexchart
+//= require vendor/moment/moment.min
+//= require vendor/bootstrap-daterangepicker/daterangepicker
+//= require vendor/clockpicker/js/bootstrap-clockpicker.min
+//= require vendor/jquery-asColor/jquery-asColor.min
+//= require vendor/jquery-asGradient/jquery-asGradient.min
+//= require vendor/jquery-asColorPicker/js/jquery-asColorPicker.min
+//= require vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker
+//= require vendor/pickadate/picker
+//= require vendor/pickadate/picker.time
+//= require vendor/pickadate/picker.date
+//= require js/plugins-init/bs-daterange-picker-init
+//= require js/plugins-init/clock-picker-init
+//= require js/plugins-init/jquery-asColorPicker.init
+//= require js/plugins-init/material-date-picker-init
+//= require js/plugins-init/pickadate-init
+//= require vendor/datatables/js/jquery.dataTables.min
+//= require vendor/datatables/js/buttons.html5.min
+//= require vendor/datatables/js/jszip.min
+//= require js/plugins-init/datatables.init
+//= require vendor/bootstrap-datetimepicker/js/moment.js
+//= require vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min
+//= require js/custom.js
+//= require js/deznav-init
+//= require 'toastr.js'
